@@ -59,7 +59,6 @@ export default {
   methods: {
     toClassGoods (item) {
       console.log(item)
-      // this.activeIndex = index
     }
   }
 }
