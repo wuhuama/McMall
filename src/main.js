@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 
+import 'babel-polyfill'
 import 'normalize.css/normalize.css'
 import '@/styles/index.scss'
 

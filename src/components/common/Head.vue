@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="header-wrapper">
       <div class="header_container">
           <div class="mc-header">
               <div class="site-nav-bd-l">
@@ -45,30 +45,33 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.header_container{
+.header-wrapper {
   width: 100%;
-  height: 60px;
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
-  padding: 0 30px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
-}
-.mc-header {
-  width: 1000px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .site-nav-bd-r {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    div {
-      margin-left: 15px;
+  z-index: 1000;
+  .header_container {
+    padding: 0 30px;
+    height: 60px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    .mc-header {
+      width: 1000px;
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .site-nav-bd-r {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        div {
+          margin-left: 15px;
+        }
+      }
     }
   }
 }
@@ -76,7 +79,7 @@ export default {
   height: 60px;
   border-bottom: 1px solid #e1e1e1;
   background: #fff;
-  box-shadow: 0 4px 10px 0 rgba(0,0,0,.05);
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
   .nav-list {
     width: 1000px;
     height: 60px;
@@ -89,7 +92,7 @@ export default {
       padding-right: 30px;
       cursor: pointer;
       color: #808080;
-      &:hover{
+      &:hover {
         color: #5079d9;
       }
     }
