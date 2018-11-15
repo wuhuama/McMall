@@ -52,11 +52,11 @@ export default {
   right: 0;
   top: 0;
   z-index: 1000;
+  background-color: #fff;
   .header_container {
-    padding: 0 30px;
     height: 60px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #eeecec;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
     .mc-header {
       width: 1000px;
       height: 100%;
@@ -74,30 +74,30 @@ export default {
       }
     }
   }
-}
-.header-sub-container {
-  height: 60px;
-  border-bottom: 1px solid #e1e1e1;
-  background: #fff;
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
-  .nav-list {
-    width: 1000px;
+  .header-sub-container {
     height: 60px;
-    line-height: 60px;
-    margin: 0 auto;
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-    .nav-item {
-      padding-right: 30px;
-      cursor: pointer;
-      color: #808080;
-      &:hover {
-        color: #5079d9;
+    border-bottom: 1px solid #e1e1e1;
+    background: #fff;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
+    .nav-list {
+      width: 1000px;
+      height: 60px;
+      line-height: 60px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: flex-start;
+      .nav-item {
+        padding-right: 30px;
+        cursor: pointer;
+        color: #808080;
+        &:hover {
+          color: #5079d9;
+        }
       }
-    }
-    .active {
-      color: #000;
+      .active {
+        color: #000;
+      }
     }
   }
 }

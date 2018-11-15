@@ -58,7 +58,8 @@ export default {
   },
   methods: {
     toClassGoods (item) {
-      console.log(item)
+      console.log(item);
+      this.router.push({path: '/classgoods/:'+ item.id})
     }
   }
 }
