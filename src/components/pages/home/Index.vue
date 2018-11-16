@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <mc-head :classList="classList" :active="activeIndex" @togClassGoods="toClassGoods"></mc-head>
+        <mc-head></mc-head>
         <div class="home-wrapper">
           <div class="home-box">
             <header class="storey-title">
@@ -48,20 +48,13 @@ export default {
   name: 'Home',
   data () {
     return {
-      hotGoods: [],
-      activeIndex: 0,
-      classList: [{id: 1, className: '首页'}, {id: 2, className: '电脑'}, {id: 3, className: '手机'}, {id: 4, className: '品牌周边'}]
+      hotGoods: []
     }
   },
   components: {
     McHead
   },
-  methods: {
-    toClassGoods (item) {
-      console.log(item);
-      this.router.push({path: '/classgoods/:'+ item.id})
-    }
-  }
+  methods: { }
 }
 </script>
 <style lang="scss" scoped>

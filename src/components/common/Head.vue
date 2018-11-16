@@ -18,7 +18,7 @@
           <div class="nav-sub-wrapper">
             <div class="nav-container">
               <ul class="nav-list">
-                <li class="nav-item" v-for="item in classList" :key="item.id" :class="{'active': activeIndex}" @click="$emit('togClassGoods', item)">{{ item.className }}</li>
+                <li class="nav-item" v-for="(item, index) in classList" :key="item.id" :class="{'active': activeIndex === index}"  @click="toggerClassGoods(item, index)">{{ item.className }}</li>
               </ul>
             </div>
           </div>
@@ -29,17 +29,27 @@
 <script>
 export default {
   name: 'Head',
-  props: {
-    classList: {
-      type: Array
-    },
-    activeIndex: {
-      type: Number
-    }
-  },
   data () {
     return {
-      storename: 'xxxx'
+      storename: 'xxxx',
+      activeIndex: 0,
+      classList: [{id: 1, className: '首页'}, {id: 2, className: '电脑'}, {id: 3, className: '手机'}, {id: 4, className: '品牌周边'}]
+    }
+  },
+  created () {
+    this.getData()
+  },
+  methods: {
+    getData () {
+      this.$http.post('ShopOrder/GetClass', {
+        PreID: 0
+      }).then((response) => {
+        this.classList = response.data
+      })
+    },
+    toggerClassGoods (item, index) {
+      this.activeIndex = index
+      this.$router.push({ path: '/classgoods', params: {preID: 2} })
     }
   }
 }
