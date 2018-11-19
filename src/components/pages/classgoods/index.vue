@@ -12,7 +12,7 @@
             </ul>
           </div>
         </div>
-        <div class="fl goods-wrapper">
+        <div class="fl goods-wrapper clearfix">
             <ul class="goods-items clearfix">
               <li class="goods-item item-four fl" v-for="item in 5" :key="item">
                 <div class="goods-box">
@@ -23,6 +23,7 @@
               </li>
             </ul>
             <el-pagination
+              class="fr"
               background
               @current-change="handleCurrentChange"
               :current-page="currentPage"
@@ -57,11 +58,13 @@ export default {
   methods: {
     getClassList () {
       let params = this.$route.params
-      this.$http.post('ShopOrder/GetClass', {
-        PreID: params.preID
-      }).then((response) => {
-        this.subMenuList = response.data
-      })
+      this.$http
+        .post('ShopOrder/GetClass', {
+          PreID: params.preID
+        })
+        .then(response => {
+          this.subMenuList = response.data
+        })
     },
     getGoodsList (item, index) {
       console.log(index)
@@ -69,15 +72,23 @@ export default {
       // 请求的数据从第start条开始
       var end = this.currentPage * this.pageSize - 1
       // 到第end条结束
-      this.$http.post('/ShopOrder/GetProduct', {
-        PageIndex: start,
-        PageSize: end,
-        ClassID: item.id
-      }).then(function (response) {
-        this.productList = response.data
-      }, function (err) {
-        console.log(err)
-      })
+      this.$http
+        .post('/ShopOrder/GetProduct', {
+          PageIndex: start,
+          PageSize: end,
+          ClassID: item.id
+        })
+        .then(
+          function (response) {
+            this.productList = response.data
+          },
+          function (err) {
+            console.log(err)
+          }
+        )
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
     }
   }
 }
@@ -101,7 +112,7 @@ export default {
           border: 1px solid #d8d7d7;
           border-bottom: 0;
         }
-        .sub-nav-item:last-child{
+        .sub-nav-item:last-child {
           border-bottom: 1px solid #d8d7d7;
         }
       }
@@ -110,7 +121,7 @@ export default {
       margin-left: 20px;
       /* border: 1px solid #d8d7d7; */
       max-width: 800px;
-      .item-four{
+      .item-four {
         width: 23%;
         height: 300px;
         margin-left: 2%;
@@ -119,14 +130,14 @@ export default {
         border: 1px solid #dce4e4;
         position: relative;
         cursor: pointer;
-        .goods-img{
+        .goods-img {
           display: block;
           margin: 0 auto;
           width: 200px;
           height: 200px;
         }
         .goods-price {
-          color: $red
+          color: $red;
         }
         .goods-name {
           padding: 0 3px;
