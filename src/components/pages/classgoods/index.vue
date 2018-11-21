@@ -1,24 +1,23 @@
 <template>
   <div class="container">
-    <mc-head></mc-head>
     <div class="content">
-      <div class="main-content clearfix">
-        <div class="fl submenu">
+      <div class="main-content">
+        <div class="submenu">
           <div class="sub-menu-wrapper">
             <ul class="sub-nav-items">
-              <li class="sub-nav-item" v-for="(item, index) in 8" :key="item.id" @click="getGoodsList(item, index)">
-                二级菜单werer
+              <li :class="['sub-nav-item', {'isActive': activeIndex === index}]" v-for="(item, index) in subMenuList" :key="item.classID" @click="getGoodsList(item, index)">
+                {{item.ClassName}}
               </li>
             </ul>
           </div>
         </div>
-        <div class="fl goods-wrapper clearfix">
+        <div class="goods-wrapper">
             <ul class="goods-items clearfix">
-              <li class="goods-item item-four fl" v-for="item in 5" :key="item">
+              <li class="goods-item item-four fl" v-for="(item, index) in productList" :key="index">
                 <div class="goods-box">
-                  <img class="goods-img" src="" alt="">
-                  <span class="goods-price red">$200</span>
-                  <div class="goods-name">华视电子 CVR-100UC身份证阅读器</div>
+                  <img class="goods-img" :src="item.ProductPic" alt="">
+                  <span class="goods-price red">{{ item.ProductPrice }}</span>
+                  <div class="goods-name">{{ item.ProductName }}</div>
                 </div>
               </li>
             </ul>
@@ -36,51 +35,64 @@
   </div>
 </template>
 <script>
-import McHead from '@/components/common/Head'
-
 export default {
   name: 'ClassGoods',
   data () {
     return {
       subMenuList: [],
       productList: [],
+      activeIndex: 0,
       currentPage: 1, // 当前页
       total: 0, // 数据总条数
-      pageSize: 12 // 每页显示的数据条数
+      pageSize: 8 // 每页显示的数据条数
     }
   },
   components: {
-    McHead
   },
-  created () {
+  mounted () {
     this.getClassList()
   },
+  watch: {
+    '$route': function (to, from, next) {
+      // 监听路由变化
+      console.log(this.$route)
+      this.getClassList()
+    }
+  },
   methods: {
-    getClassList () {
-      let params = this.$route.params
+    getClassList (rec) {
+      let params = this.$route.query
       this.$http
-        .post('ShopOrder/GetClass', {
+        .post('/bbc/ShopOrder/GetClass', {
           PreID: params.preID
         })
         .then(response => {
           this.subMenuList = response.data
+        }).then(() => {
+          const rec = this.subMenuList[0]
+          this.getGoodsList(rec, 0)
         })
     },
     getGoodsList (item, index) {
-      console.log(index)
-      var start = (this.currentPage - 1) * this.pageSize
+      let _this = this
+      _this.activeIndex = index
+      var start = _this.currentPage
+      // var start = (this.currentPage - 1) * this.pageSize
       // 请求的数据从第start条开始
-      var end = this.currentPage * this.pageSize - 1
+      // var end = this.currentPage * this.pageSize - 1
       // 到第end条结束
-      this.$http
-        .post('/ShopOrder/GetProduct', {
+      _this.$http
+        .post('/bbc/ShopOrder/GetProduct', {
           PageIndex: start,
-          PageSize: end,
-          ClassID: item.id
+          PageSize: this.pageSize,
+          ClassID: item.ClassID
         })
         .then(
           function (response) {
-            this.productList = response.data
+            if (response.status === 0) {
+              _this.productList = response.data
+              _this.total = response.data.length
+            }
           },
           function (err) {
             console.log(err)
@@ -103,6 +115,7 @@ export default {
     padding: 10px;
     padding-top: 20px;
     background-color: #fff;
+    display: flex;
     .submenu {
       .sub-nav-items {
         .sub-nav-item {
@@ -111,6 +124,10 @@ export default {
           padding: 0 20px;
           border: 1px solid #d8d7d7;
           border-bottom: 0;
+          color: #595454;
+        }
+        .isActive{
+          font-weight: bold;
         }
         .sub-nav-item:last-child {
           border-bottom: 1px solid #d8d7d7;
@@ -119,17 +136,19 @@ export default {
     }
     .goods-wrapper {
       margin-left: 20px;
+      flex: 1;
       /* border: 1px solid #d8d7d7; */
-      max-width: 800px;
+      /* max-width: 800px; */
       .item-four {
-        width: 23%;
+        width: 200px;
         height: 300px;
-        margin-left: 2%;
+        margin-left: 3px;
         margin-bottom: 10px;
         text-align: center;
         border: 1px solid #dce4e4;
         position: relative;
         cursor: pointer;
+        box-sizing: border-box;
         .goods-img {
           display: block;
           margin: 0 auto;

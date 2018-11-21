@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <mc-head></mc-head>
         <div class="home-wrapper">
           <div class="home-box">
             <header class="storey-title">
@@ -9,11 +8,11 @@
             <div class="category-normal-wrapper">
               <section class="items-wrapper clearfix">
                 <ul class="items hot-items clearfix">
-                  <li class="item-five fl" v-for="item in 5" :key="item">
+                  <li class="item-five fl" v-for="(item, index) in hotGoods" :key="index" @click="getProductDetail(item)">
                     <div class="goods-box">
-                      <img class="goods-img" src="" alt="">
-                      <span class="goods-price red">$200</span>
-                      <div class="goods-name">精伦iDR210</div>
+                      <img class="goods-img" :src="item.ProductPic">
+                      <span class="goods-price red">{{item.ProductPrice}}</span>
+                      <div class="goods-name">{{item.ProductName}}</div>
                     </div>
                   </li>
                 </ul>
@@ -27,11 +26,11 @@
             <div class="category-normal-wrapper">
               <section class="items-wrapper clearfix">
                 <ul class="items new-items clearfix">
-                  <li class="item-five fl" v-for="item in 5" :key="item">
+                  <li class="item-five fl" v-for="(item, index) in newGoods" :key="index">
                     <div class="goods-box">
-                      <img class="goods-img" src="" alt="">
-                      <span class="goods-price red">$200</span>
-                      <div class="goods-name">华视电子 CVR-100UC身份证阅读器</div>
+                      <img class="goods-img" :src="item.ProductPic">
+                      <span class="goods-price red">{{item.ProductPrice}}</span>
+                      <div class="goods-name">{{item.ProductName}}</div>
                     </div>
                   </li>
                 </ul>
@@ -42,19 +41,35 @@
     </div>
 </template>
 <script>
-import McHead from '@/components/common/Head'
-
 export default {
   name: 'Home',
   data () {
     return {
-      hotGoods: []
+      hotGoods: [],
+      newGoods: []
     }
   },
   components: {
-    McHead
   },
-  methods: { }
+  created () {
+    this.getProductData()
+  },
+  methods: {
+    getProductData () {
+      this.$http.post('/bbc/ShopOrder/GetHomeProduct').then((response) => {
+        this.hotGoods = response.data.HList
+        this.newGoods = response.data.NList
+      })
+    },
+    getProductDetail (item) {
+      this.$router.push({
+        path: '/detail',
+        query: {
+          info: JSON.stringify(item)
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -90,17 +105,22 @@ export default {
           border-bottom: 1px solid #dce4e4;
           position: relative;
           cursor: pointer;
-          .goods-img{
-            display: block;
-            margin: 0 auto;
-            width: 200px;
-            height: 200px;
-          }
-          .goods-price {
-            color: $red
-          }
-          .goods-name {
-            padding: 0 3px;
+          .goods-box {
+            padding: 5px;
+            .goods-img{
+              display: block;
+              margin: 0 auto;
+              width: 100%;
+              height: 200px;
+            }
+            .goods-price {
+              color: $red;
+              display: inline-block;
+              margin-top: 20px;
+            }
+            .goods-name {
+              padding: 0 3px;
+            }
           }
         }
       }

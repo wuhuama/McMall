@@ -1,25 +1,20 @@
 <template>
   <div id="app">
+    <mc-head></mc-head>
     <router-view/>
   </div>
 </template>
 
 <script>
-
+import McHead from '@/components/common/Head'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    McHead
+  }
 }
 </script>
 
 <style>
-/* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  width: 100%;
-  min-width: 1000px;
-  margin: 0 auto;
-  padding-top: 60px;
-  background: #ededed;
-} */
+
 </style>

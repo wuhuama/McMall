@@ -2,5 +2,5 @@
 module.exports = {
   NODE_ENV: '"production"',
   ENV_CONFIG: '"prod"',
-  BASE_API: 'location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/BigSuperPMS/api/"'
+  BASE_API: 'location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/SingleSuperPMS/api/"'
 }

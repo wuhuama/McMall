@@ -11,11 +11,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      'api': {
-        target: 'http://localhost:8003',
+      '/api': {
+        target: 'http://127.0.0.1:8888',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
+          '^/api': '/'
+        }
+      },
+      '/bbc': {
+        target: 'http://127.0.0.1:8003/SingleSuperPMS/api',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/bbc': '/'
         }
       }
     },
@@ -23,7 +30,7 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8002, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-

@@ -17,8 +17,8 @@
         <div class="nav-sub">
           <div class="nav-sub-wrapper">
             <div class="nav-container">
-              <ul class="nav-list">
-                <li class="nav-item" v-for="(item, index) in classList" :key="item.id" :class="{'active': activeIndex === index}"  @click="toggerClassGoods(item, index)">{{ item.className }}</li>
+              <ul class="nav-list" v-if="classList.length>0">
+                <li class="nav-item" v-for="(item, index) in classList" :key="item.ClassID" :class="{'active': activeIndex === index}" @click="toggerClassGoods(item, index)">{{ item.ClassName }}</li>
               </ul>
             </div>
           </div>
@@ -27,13 +27,14 @@
   </div>
 </template>
 <script>
+// import axios from 'axios'
 export default {
   name: 'Head',
   data () {
     return {
       storename: 'xxxx',
       activeIndex: 0,
-      classList: [{id: 1, className: '首页'}, {id: 2, className: '电脑'}, {id: 3, className: '手机'}, {id: 4, className: '品牌周边'}]
+      classList: []
     }
   },
   created () {
@@ -41,15 +42,30 @@ export default {
   },
   methods: {
     getData () {
-      this.$http.post('ShopOrder/GetClass', {
+      // this.$http.get('/api').then((response) => {
+      //   console.log(response)
+      // })
+      this.$http.post('/bbc/ShopOrder/GetClass', {
         PreID: 0
       }).then((response) => {
         this.classList = response.data
+        this.classList.unshift({classID: 0, ClassName: '首页'})
       })
     },
     toggerClassGoods (item, index) {
       this.activeIndex = index
-      this.$router.push({ path: '/classgoods', params: {preID: 2} })
+      if (item.classID !== 0) {
+        console.log(item.ClassID)
+        this.$router.push({
+          path: '/classgoods',
+          query: {
+            preID: item.ClassID
+          }
+        })
+        this.$emit('getClasses', item)
+      } else {
+        this.$router.push({ path: './' })
+      }
     }
   }
 }
