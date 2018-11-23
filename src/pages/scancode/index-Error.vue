@@ -31,8 +31,7 @@ export default {
       pay_money: localStorage.getItem('current-Money'),
       ali_imgUrl: '',
       wechat_imgUrl: '',
-      ali_timer: null,
-      we_timer: null
+      timer: null
     }
   },
   mounted () {
@@ -67,41 +66,22 @@ export default {
       })
     },
     clearTimer () {
-      clearInterval(this.ali_timer)
-      clearInterval(this.we_timer)
-      this.ali_timer = null
-      this.we_timer = null
+      clearInterval(this.timer)
+      this.timer = null
     },
     verifyPaySuccess () {
-      this.isAliPay()
-      this.isWeChatPay()
+      this.isPay(1)
+      this.isPay(2)
     },
-    isAliPay () {
-      this.ali_timer = setInterval(() => {
+    isPay (type) {
+      this.timer = setInterval(() => {
         let orderno = localStorage.getItem('current-OrderNo')
         this.$http.post('/bbc/ShopOrder/IsPayOrder', {
           OrderNo: orderno,
-          PayType: 1
+          PayType: type
         }).then((response) => {
           if (response.status === 0) {
-            console.log(55555)
-            if (response.data) {
-              this.clearTimer()
-              this.$router.push({path: '/paysuccess'})
-            }
-          }
-        })
-      }, 5000)
-    },
-    isWeChatPay () {
-      this.we_timer = setInterval(() => {
-        let orderno = localStorage.getItem('current-OrderNo')
-        this.$http.post('/bbc/ShopOrder/IsPayOrder', {
-          OrderNo: orderno,
-          PayType: 2
-        }).then((response) => {
-          if (response.status === 0) {
-            console.log(666)
+            console.log(type)
             if (response.data) {
               this.clearTimer()
               this.$router.push({path: '/paysuccess'})

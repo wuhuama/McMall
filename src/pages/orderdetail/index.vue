@@ -90,7 +90,7 @@ export default {
       this.$refs['ruleForm'].validate(valid => {
         if (valid) {
           this.$http.post('/bbc/ShopOrder/SubmitOrder', {
-            ProductID: this.productInfo.ProductID || 1,
+            ProductID: this.productInfo.ProductID,
             ProductNum: this.$refs.rInputNum.count,
             LinkMan: this.ruleForm.name,
             LinkTel: this.ruleForm.mobile
@@ -127,6 +127,7 @@ export default {
   .main-content{
     margin-top: 25px;
     background-color: #fff;
+    padding-bottom: 30px;
     .title-18 {
         height: 40px;
         line-height: 40px;
@@ -148,14 +149,18 @@ export default {
           padding: 0 10px;
           background-color: #e2e2e2;
           display: flex;
-          justify-content: space-between
+          justify-content: space-between;
+          display: none;
         }
         .goods-list {
+          margin-bottom: 30px;
           li {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 5px;
+            border: 1px solid #f1f1f1;
+            box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
+            padding: 10px 20px;
             img {
               width: 100px;
               height: 100px;

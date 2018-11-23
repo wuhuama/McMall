@@ -11,7 +11,7 @@
                   <li class="item-five fl" v-for="(item, index) in hotGoods" :key="index" @click="getProductDetail(item)">
                     <div class="goods-box">
                       <img class="goods-img" :src="item.ProductPic">
-                      <span class="goods-price red">{{item.ProductPrice}}</span>
+                      <span class="goods-price red">￥{{item.ProductPrice}}</span>
                       <div class="goods-name">{{item.ProductName}}</div>
                     </div>
                   </li>
@@ -29,7 +29,7 @@
                   <li class="item-five fl" v-for="(item, index) in newGoods" :key="index" @click="getProductDetail(item)">
                     <div class="goods-box">
                       <img class="goods-img" :src="item.ProductPic">
-                      <span class="goods-price red">{{item.ProductPrice}}</span>
+                      <span class="goods-price red">￥{{item.ProductPrice}}</span>
                       <div class="goods-name">{{item.ProductName}}</div>
                     </div>
                   </li>
@@ -115,9 +115,18 @@ export default {
               color: $red;
               display: inline-block;
               margin-top: 20px;
+              height: 30px;
+              line-height: 30px;
             }
             .goods-name {
               padding: 0 3px;
+              font-size: 12px;
+              overflow: hidden;
+              margin: 0 12px 0 16px;
+              height: 14px;
+              line-height: 1;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }

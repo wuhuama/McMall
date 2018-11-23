@@ -100,6 +100,7 @@ export default {
       .p-img{
         width: 250px;
         height: 250px;
+        margin-left: 20px;
         margin-right: 20px;
       }
       .p-right {
@@ -146,6 +147,7 @@ export default {
           }
         }
         .btnBuy {
+          width: 160px;
           text-align: center;
           margin-top: 30px;
           height: 36px;

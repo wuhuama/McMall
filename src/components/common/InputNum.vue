@@ -54,6 +54,7 @@ export default {
       line-height: 18px;
       box-sizing: border-box;
       border: 1px solid #cecece;
+      border-left: 0;
       cursor: pointer;
       user-select:none;
     }

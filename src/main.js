@@ -7,6 +7,8 @@ import 'normalize.css/normalize.css'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import 'font-awesome/css/font-awesome.css'
+
 import '@/styles/index.scss'
 
 import App from './App'
@@ -16,7 +18,12 @@ import http from '@/utils/request.js'
 Vue.config.productionTip = false
 Vue.use(Element)
 Vue.prototype.$http = http
-
+Vue.prototype.$elementMessage = function (msg, t) {
+  this.$message({
+    message: msg,
+    type: t
+  })
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
