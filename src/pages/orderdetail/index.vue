@@ -4,23 +4,19 @@
       <div class="title title-18">订单信息</div>
       <div class="productlist">
         <div class="orderman-info">
-          <el-form ref="form" :model="form" :rules="rules" :label-position="labelPosition" label-width="80px" @submit.native.prevent>
+          <el-form ref="ruleForm" :model="ruleForm" :rules="rules" :label-position="labelPosition" label-width="80px" @submit.native.prevent>
             <el-form-item label="联系人" prop="name">
               <el-input
-                v-model="form.name"
+                v-model="ruleForm.name"
                 size="small"
                 style="width:200px"></el-input>
             </el-form-item>
             <el-form-item label="联系电话" prop="mobile">
               <el-input
-                v-model="form.mobile"
+                v-model="ruleForm.mobile"
                 size="small"
                 style="width: 200px"></el-input>
             </el-form-item>
-            <!-- <el-form-item>
-              <el-button type="primary" @click="onSubmit">立即创建</el-button>
-              <el-button>取消</el-button>
-            </el-form-item> -->
           </el-form>
         </div>
         <div class="goods-wrapper">
@@ -31,21 +27,14 @@
           <ul class="goods-list">
             <li>
               <img src="" alt="">
-              <div class="name">新中心 FFFDD-23324</div>
-              <div class="p-num-box">
-              <div class="p-num-text">数量：</div>
-                <input class="p-num" v-model="count" />
-                <div class="p-num-modify">
-                  <div @click="addCount()">+</div>
-                  <div @click="reduceCount">-</div>
-                </div>
-              </div>
-              <div class="price">￥500</div>
+              <div class="name">{{ productInfo.ProductName }}</div>
+              <input-num ref="rInputNum" v-on:getTotalMoney="getPrice"></input-num>
+              <div class="price">￥{{ productInfo.ProductPrice }}</div>
             </li>
           </ul>
           <div class="payInfo">
-            <div class="black-text-20">待支付: <span class="total-price">500</span></div>
-            <div class="btnPay">立即支付</div>
+            <div class="black-text-20">待支付: <span class="total-price">{{ totalPrice }}</span></div>
+            <div class="btnPay" @click="getpPayCode">立即支付</div>
           </div>
         </div>
       </div>
@@ -54,6 +43,8 @@
 </template>
 <script>
 import { validateMobile } from '@/utils/validate'
+import InputNum from '@/components/common/InputNum'
+
 export default {
   name: 'ProductDetail',
   data () {
@@ -66,10 +57,13 @@ export default {
         callback()
       }
     }
+    const productInfos = localStorage.getItem('goodsIinfo')
     return {
       count: 1,
+      totalPrice: 0,
+      productInfo: JSON.parse(productInfos),
       labelPosition: 'left',
-      form: {
+      ruleForm: {
         name: '',
         mobile: ''
       },
@@ -79,15 +73,49 @@ export default {
           { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, validator: validPhone, message: '请输入联系电话', trigger: 'blur,change' }
+          { required: true, validator: validPhone, trigger: 'blur, change' }
         ]
       }
-
     }
   },
+  components: {
+    InputNum
+  },
+  mounted () {
+    let num = localStorage.getItem('num')
+    this.totalPrice = num * this.productInfo.ProductPrice
+  },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    getpPayCode () {
+      this.$refs['ruleForm'].validate(valid => {
+        if (valid) {
+          this.$http.post('/bbc/ShopOrder/SubmitOrder', {
+            ProductID: this.productInfo.ProductID || 1,
+            ProductNum: this.$refs.rInputNum.count,
+            LinkMan: this.ruleForm.name,
+            LinkTel: this.ruleForm.mobile
+          }).then((response) => {
+            if (response.status === 0) {
+              let orderNo = response.data.str_OrderNo
+              let money = response.data.dec_Money
+
+              localStorage.setItem('current-OrderNo', orderNo)
+              localStorage.setItem('current-Money', money)
+              this.$router.push({
+                path: '/scancode'
+              })
+            }
+          }).catch(function (error) {
+            console.log(error)
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    getPrice (num) {
+      this.totalPrice = num * this.productInfo.ProductPrice
     }
   }
 }

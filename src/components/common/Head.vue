@@ -8,7 +8,7 @@
               </div>
               <div class="site-nav-bd-r">
                   <div class="store-name">欢迎光临{{storename}}陌创商城</div>
-                  <div class="btn-order">我的订单</div>
+                  <div class="btn-order" @click="getAllOrder">我的订单</div>
                   <div class="tel">客服热线：4008060888</div>
               </div>
           </div>
@@ -27,12 +27,15 @@
   </div>
 </template>
 <script>
-// import axios from 'axios'
+// import Cookies from 'js-cookie'
+
 export default {
   name: 'Head',
   data () {
+    // const storename = Cookies.get('SuperPMSNameStore')
+    // console.log(decodeURI(storename))
     return {
-      storename: 'xxxx',
+      storename: 'sssss',
       activeIndex: 0,
       classList: []
     }
@@ -55,7 +58,6 @@ export default {
     toggerClassGoods (item, index) {
       this.activeIndex = index
       if (item.classID !== 0) {
-        console.log(item.ClassID)
         this.$router.push({
           path: '/classgoods',
           query: {
@@ -66,6 +68,11 @@ export default {
       } else {
         this.$router.push({ path: './' })
       }
+    },
+    getAllOrder () {
+      this.$router.push({
+        path: '/orderlist'
+      })
     }
   }
 }
@@ -96,6 +103,14 @@ export default {
         align-items: center;
         div {
           margin-left: 15px;
+        }
+        .btn-order {
+          box-sizing: border-box;
+          height: 30px;
+          border: 1px solid #ddd;
+          padding: 5px 15px;
+          border-radius: 6px;
+          cursor: pointer;
         }
       }
     }

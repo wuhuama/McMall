@@ -13,7 +13,7 @@
         </div>
         <div class="goods-wrapper">
             <ul class="goods-items clearfix">
-              <li class="goods-item item-four fl" v-for="(item, index) in productList" :key="index">
+              <li class="goods-item item-four fl" v-for="(item, index) in productList" :key="index" @click="getProductDetail(item)">
                 <div class="goods-box">
                   <img class="goods-img" :src="item.ProductPic" alt="">
                   <span class="goods-price red">{{ item.ProductPrice }}</span>
@@ -22,11 +22,13 @@
               </li>
             </ul>
             <el-pagination
+              v-if="productList.length>0"
               class="fr"
               background
               @current-change="handleCurrentChange"
               :current-page="currentPage"
               layout="prev, pager, next, total"
+              :page-size="pageSize"
               :total="total">
             </el-pagination>
         </div>
@@ -44,27 +46,29 @@ export default {
       activeIndex: 0,
       currentPage: 1, // 当前页
       total: 0, // 数据总条数
-      pageSize: 8 // 每页显示的数据条数
+      pageSize: 8, // 每页显示的数据条数,
+      preID: 0
     }
   },
   components: {
   },
   mounted () {
-    this.getClassList()
+    console.log(this.$route.query)
+    const pid = this.$route.query.preID
+    this.getClassList(pid)
   },
-  watch: {
-    '$route': function (to, from, next) {
-      // 监听路由变化
-      console.log(this.$route)
-      this.getClassList()
-    }
+  beforeRouteUpdate (to, from, next) {
+    console.log(to.query.preID)
+    this.getClassList(to.query.preID)
+    next()
   },
   methods: {
-    getClassList (rec) {
+    getClassList (pid) {
       let params = this.$route.query
+      console.log(`分类的url参数 ${JSON.stringify(params)}`)
       this.$http
         .post('/bbc/ShopOrder/GetClass', {
-          PreID: params.preID
+          PreID: pid
         })
         .then(response => {
           this.subMenuList = response.data
@@ -91,7 +95,7 @@ export default {
           function (response) {
             if (response.status === 0) {
               _this.productList = response.data
-              _this.total = response.data.length
+              _this.total = response.Total
             }
           },
           function (err) {
@@ -100,7 +104,15 @@ export default {
         )
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+      this.currentPage = val
+      const rec = this.productList[this.activeIndex]
+      this.getGoodsList(rec, this.currentPage)
+    },
+    getProductDetail (item) {
+      this.$router.push({
+        path: '/detail'
+      })
+      localStorage.setItem('goodsIinfo', JSON.stringify(item))
     }
   }
 }
@@ -125,6 +137,7 @@ export default {
           border: 1px solid #d8d7d7;
           border-bottom: 0;
           color: #595454;
+          cursor: pointer;
         }
         .isActive{
           font-weight: bold;

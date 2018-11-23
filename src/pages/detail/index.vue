@@ -3,32 +3,22 @@
     <div class="content">
       <div class="main-content">
         <div class="product-main clearfix">
-          <img class="fl p-img p-left" src="https://resource.smartisan.com/resource/2f2afca6f88e3aef5b1f332ea0c1d65a.png?x-oss-process=image/resize,w_527/format,webp" alt="">
+          <img class="fl p-img p-left" :src="goodsInfo.ProductPic" alt="">
           <div class="fl p-right">
-            <div class="p-name">新中心读卡器</div>
-            <div class="p-price">$500</div>
-            <div class="p-num-box">
-              <div class="p-num-text">数量：</div>
-              <input class="p-num" v-model="count" />
-              <div class="p-num-modify">
-                <div @click="addCount()">+</div>
-                <div @click="reduceCount">-</div>
-              </div>
-            </div>
+            <div class="p-name">{{ goodsInfo.ProductName }}</div>
+            <div class="p-price">￥{{ goodsInfo.ProductPrice }}</div>
+            <input-num ref="refInputNum"></input-num>
             <div class="btnBuy" @click="buyProduct()">立刻购买</div>
           </div>
         </div>
         <div class="procuct-desc-wrapper">
           <p class="p-desc-text">
-            酒店覅假道伐虢兄弟空间大幅度发给而ddddd儿童日 酒店覅假道伐虢兄弟空间大幅度发给而ddddd儿童日 酒店覅假道伐虢兄弟空间大幅度发给而ddddd儿童日 酒店覅假道伐虢兄弟空间大幅度发给而ddddd儿童日 酒店覅假道伐虢兄弟空间大幅度发给而ddddd儿童日
+            {{ goodsInfo.ProductDesc }}
           </p>
           <div class="p-img-list">
             <ul>
-              <li>
-                <img src="https://resource.smartisan.com/resource/2f2afca6f88e3aef5b1f332ea0c1d65a.png?x-oss-process=image/resize,w_527/format,webp" alt="">
-              </li>
-              <li>
-                <img src="https://resource.smartisan.com/resource/2f2afca6f88e3aef5b1f332ea0c1d65a.png?x-oss-process=image/resize,w_527/format,webp" alt="">
+              <li v-for="(itemsrc, index) in goodsInfo.Pics" :key="index">
+                <img class="goods-bigImage" :src="itemsrc">
               </li>
             </ul>
           </div>
@@ -50,29 +40,31 @@
   </div>
 </template>
 <script>
+import InputNum from '@/components/common/InputNum'
 export default {
   name: 'ProductDetail',
   data () {
+    const goodsInfos = localStorage.getItem('goodsIinfo')
     return {
       subMenuList: [],
       activeIndex: 0,
-      count: 1
+      count: 1,
+      goodsInfo: JSON.parse(goodsInfos)
     }
   },
-  watch: {
-    '$route': function (to, from, next) {
-      // 监听路由变化
-      console.log('变化了', this.$route)
-      this.getParams()
-    }
+  components: {
+    InputNum
+  },
+  mounted () {
+    // console.log(this.$route)
   },
   methods: {
     getParams () {
       // 取到路由带过来的参数
-      let routerParams = this.$route.query
+      // let routerParams = this.$route.query
       // 将数据放在当前组件的数据内
       // this.msg = routerParams
-      console.log(routerParams)
+      // console.log(routerParams)
     },
     addCount () {
       this.count++
@@ -88,6 +80,7 @@ export default {
       this.$router.push({
         path: '/orderdetail'
       })
+      localStorage.setItem('num', this.$refs.refInputNum.count)
     }
   }
 }
@@ -169,6 +162,11 @@ export default {
       padding: 15px;
       .p-desc-text {
         font-size: 16px;
+      }
+      .p-img-list {
+        li img {
+          width: 100%
+        }
       }
     }
     .other-goods {

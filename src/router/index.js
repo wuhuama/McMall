@@ -2,10 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-const Home = () => import('@/components/pages/home')
-const ClassGoods = () => import('@/components/pages/classgoods')
-const Detail = () => import('@/components/pages/detail')
-const OrderDetail = () => import('@/components/pages/orderdetail')
+const Home = () => import('@/pages/home')
+const ClassGoods = () => import('@/pages/classgoods')
+const Detail = () => import('@/pages/detail')
+const OrderDetail = () => import('@/pages/orderdetail')
+const ScanCode = () => import('@/pages/scancode')
+const PaySuccess = () => import('@/pages/paysuccess')
+const OrderList = () => import('@/pages/orderlist')
 
 export default new Router({
   routes: [{
@@ -24,5 +27,17 @@ export default new Router({
     path: '/orderdetail',
     name: 'OrderDetail',
     component: OrderDetail
+  }, {
+    path: '/scancode',
+    name: 'ScanCode',
+    component: ScanCode
+  }, {
+    path: '/paysuccess',
+    name: 'PaySuccess',
+    component: PaySuccess
+  }, {
+    path: '/orderlist',
+    name: 'OrderList',
+    component: OrderList
   }]
 })

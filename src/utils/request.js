@@ -32,15 +32,14 @@ $http.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.code === -1) {
-      message(res.msg, 'error')
+    if (res.status === 100001) {
+      message(res.message, 'error')
       return Promise.reject(res)
     }
     return res
   },
   error => {
     const res = error.response
-    console.log(res.status)
     if (res.status === 401) {
       // store.dispatch('FedLogOut').then(() => { location.reload() })
     } else if (res.status === 403) {

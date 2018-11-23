@@ -26,7 +26,7 @@
             <div class="category-normal-wrapper">
               <section class="items-wrapper clearfix">
                 <ul class="items new-items clearfix">
-                  <li class="item-five fl" v-for="(item, index) in newGoods" :key="index">
+                  <li class="item-five fl" v-for="(item, index) in newGoods" :key="index" @click="getProductDetail(item)">
                     <div class="goods-box">
                       <img class="goods-img" :src="item.ProductPic">
                       <span class="goods-price red">{{item.ProductPrice}}</span>
@@ -63,11 +63,9 @@ export default {
     },
     getProductDetail (item) {
       this.$router.push({
-        path: '/detail',
-        query: {
-          info: JSON.stringify(item)
-        }
+        path: '/detail'
       })
+      localStorage.setItem('goodsIinfo', JSON.stringify(item))
     }
   }
 }
