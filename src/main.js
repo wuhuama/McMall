@@ -12,6 +12,7 @@ import 'font-awesome/css/font-awesome.css'
 import '@/styles/index.scss'
 
 import App from './App'
+import store from './store/'
 import router from './router'
 import http from '@/utils/request.js'
 
@@ -28,6 +29,7 @@ Vue.prototype.$elementMessage = function (msg, t) {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

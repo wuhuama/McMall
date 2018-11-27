@@ -1,7 +1,7 @@
 <template>
   <div class="input-num-wrapper">
     <div class="p-num-text">数量：</div>
-    <input class="p-num" v-model="count" />
+    <input type="text" class="p-num" :value="count" @input="handleInput"/>
     <div class="p-num-modify">
       <div @click="addCount">+</div>
       <div @click="reduceCount">-</div>
@@ -10,22 +10,16 @@
 </template>
 <script>
 export default {
-  data () {
-    return {
-      count: 1
-    }
-  },
+  props: ['count'],
   methods: {
     addCount () {
-      this.count++
-      this.$emit('getTotalMoney', this.count)
+      this.$emit('addCount', true)
     },
     reduceCount () {
-      if (this.count > 1) {
-        this.count--
-      } else {
-        this.count = 1
-      }
+      this.$emit('reduceCount')
+    },
+    handleInput () {
+      this.$emit('input', this.$event.target.value)
     }
   }
 }

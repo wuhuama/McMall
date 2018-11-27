@@ -37,19 +37,37 @@
               </section>
             </div>
           </div>
+          <go-top :scrollParam="scroll"></go-top>
         </div>
     </div>
 </template>
 <script>
+import GoTop from '@/components/common/GoTop'
 export default {
   name: 'Home',
   data () {
     return {
       hotGoods: [],
-      newGoods: []
+      newGoods: [],
+      // 回到顶部参数
+      scroll: {
+        // 回到顶部的方式 0 - 马上回到顶部，css实现（默认） 1 - 匀速回到顶部，js实现
+        way: 1,
+        // 滚动多少像素显示“回到顶部”图标
+        distance: 20,
+        // 向上滚动间隔
+        time: 600,
+        // 运动方式 Bounce
+        sportWay: 'Quad',
+        // 缓急方式 easeInOut
+        slowWay: 'easeIn',
+        // 回到顶部后回调方法
+        callback: this.onScollTop
+      }
     }
   },
   components: {
+    GoTop
   },
   created () {
     this.getProductData()
@@ -66,6 +84,10 @@ export default {
         path: '/detail'
       })
       localStorage.setItem('goodsIinfo', JSON.stringify(item))
+    },
+    // 回到顶部后回调
+    onScollTop () {
+      this.$elementMessage.info('到达页面顶部了')
     }
   }
 }

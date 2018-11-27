@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="main-content">
+      <div class="title title-18">请选择一种支付方式</div>
       <div class="code-box">
         <div class="code alipay-code">
           <fieldset class="alipay-border">
@@ -84,7 +85,6 @@ export default {
           PayType: 1
         }).then((response) => {
           if (response.status === 0) {
-            console.log(55555)
             if (response.data) {
               this.clearTimer()
               this.$router.push({path: '/paysuccess'})
@@ -101,7 +101,6 @@ export default {
           PayType: 2
         }).then((response) => {
           if (response.status === 0) {
-            console.log(666)
             if (response.data) {
               this.clearTimer()
               this.$router.push({path: '/paysuccess'})
@@ -120,16 +119,26 @@ export default {
   .main-content{
     margin-top: 25px;
     background-color: #fff;
-    padding-top: 30px;
     padding-bottom: 30px;
+    .title-18 {
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        font-size: 18px;
+        color: #000;
+        border-left: 3px solid #F18103;
+        margin-bottom: 50px;
+    }
     .code-box {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
       .code {
+        display: inline-block;
         text-align: center;
-        padding-top: 20px;
         display: flex;
         justify-content: center;
         align-content: center;
@@ -139,6 +148,8 @@ export default {
         .alipay-border, .wepay-border{
           border: 2px solid #1598D7;
           border-radius: 18px;
+          padding: 0;
+          margin: 0;
           padding: 45px;
         }
         .wepay-border {
@@ -148,15 +159,22 @@ export default {
           }
         }
         fieldset{
-          width: 230px;
+          /* width: 230px; */
+
           .qrcode{
-            width: 180px;
-            height: 180px;
+            width: 202px;
+            height: 202px;
             border: 1px solid #1598d7;
+            margin: auto;
             padding: 10px;
+            position: relative;
             img {
-              width: 100%;
-              height: 100%;
+              width: 180px;
+              height: 180px;
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
             }
           }
         }

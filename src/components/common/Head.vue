@@ -7,7 +7,7 @@
                   <span style="font-size: 20px;">陌创商城</span>
               </div>
               <div class="site-nav-bd-r">
-                  <div class="store-name">欢迎光临{{storename}}陌创商城</div>
+                  <div class="store-name">欢迎{{storename}}光临陌创商城</div>
                   <div class="btn-order" @click="getAllOrder">我的订单</div>
                   <div class="tel">客服热线：4008060888</div>
               </div>
@@ -27,15 +27,16 @@
   </div>
 </template>
 <script>
-// import Cookies from 'js-cookie'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'Head',
   data () {
-    // const storename = Cookies.get('SuperPMSNameStore')
-    // console.log(decodeURI(storename))
+    // SuperPMSNameStore 酒店名称
+    const storename = Cookies.get('SuperPMSNameStore')
+    const storeName = unescape(storename)
     return {
-      storename: 'sssss',
+      storename: storeName,
       activeIndex: 0,
       classList: []
     }
@@ -45,9 +46,6 @@ export default {
   },
   methods: {
     getData () {
-      // this.$http.get('/api').then((response) => {
-      //   console.log(response)
-      // })
       this.$http.post('/bbc/ShopOrder/GetClass', {
         PreID: 0
       }).then((response) => {
@@ -119,6 +117,7 @@ export default {
     height: 60px;
     border-bottom: 1px solid #e1e1e1;
     background: #fff;
+    background-color: #F18103;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
     .nav-list {
       width: 1000px;
@@ -132,8 +131,11 @@ export default {
         padding-right: 30px;
         cursor: pointer;
         color: #808080;
+        color: #fff;
+
         &:hover {
-          color: #5079d9;
+          /* color: #5079d9; */
+          color: #000;
         }
       }
       .active {

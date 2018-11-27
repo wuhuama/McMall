@@ -11,7 +11,7 @@
             </ul>
           </div>
         </div>
-        <div class="goods-wrapper">
+        <div class="goods-wrapper" v-loading="loading">
             <ul class="goods-items clearfix">
               <li class="goods-item item-four fl" v-for="(item, index) in productList" :key="index" @click="getProductDetail(item)">
                 <div class="goods-box">
@@ -47,25 +47,24 @@ export default {
       currentPage: 1, // 当前页
       total: 0, // 数据总条数
       pageSize: 8, // 每页显示的数据条数,
-      preID: 0
+      preID: 0,
+      loading: true
     }
   },
   components: {
   },
   mounted () {
-    console.log(this.$route.query)
     const pid = this.$route.query.preID
     this.getClassList(pid)
   },
   beforeRouteUpdate (to, from, next) {
-    console.log(to.query.preID)
     this.getClassList(to.query.preID)
     next()
   },
   methods: {
     getClassList (pid) {
-      let params = this.$route.query
-      console.log(`分类的url参数 ${JSON.stringify(params)}`)
+      // let params = this.$route.query
+      // console.log(`分类的url参数 ${JSON.stringify(params)}`)
       this.$http
         .post('/bbc/ShopOrder/GetClass', {
           PreID: pid
@@ -94,11 +93,13 @@ export default {
         .then(
           function (response) {
             if (response.status === 0) {
+              _this.loading = false
               _this.productList = response.data
               _this.total = response.Total
             }
           },
           function (err) {
+            _this.loading = false
             console.log(err)
           }
         )

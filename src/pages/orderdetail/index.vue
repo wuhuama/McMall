@@ -26,9 +26,11 @@
           </div>
           <ul class="goods-list">
             <li>
-              <img src="" alt="">
-              <div class="name">{{ productInfo.ProductName }}</div>
-              <input-num ref="rInputNum" v-on:getTotalMoney="getPrice"></input-num>
+              <div class="item-pro">
+                <img :src="productInfo.ProductPic">
+                <div class="name">{{ productInfo.ProductName }}</div>
+              </div>
+              <input-num ref="rInputNum" :count="count" v-on:getTotalMoney="getPrice" v-on:addCount="addProductCount" v-on:reduceCount="reduceProductCount"></input-num>
               <div class="price">￥{{ productInfo.ProductPrice }}</div>
             </li>
           </ul>
@@ -82,7 +84,8 @@ export default {
     InputNum
   },
   mounted () {
-    let num = localStorage.getItem('num')
+    let num = this.$route.query.count
+    this.count = parseInt(num)
     this.totalPrice = num * this.productInfo.ProductPrice
   },
   methods: {
@@ -116,6 +119,20 @@ export default {
     },
     getPrice (num) {
       this.totalPrice = num * this.productInfo.ProductPrice
+    },
+    addProductCount (val) {
+      if (val) {
+        this.count++
+      }
+      this.getPrice(this.count)
+    },
+    reduceProductCount () {
+      if (this.count > 1) {
+        this.count--
+      } else {
+        this.count = 1
+      }
+      this.getPrice(this.count)
     }
   }
 }
@@ -161,10 +178,18 @@ export default {
             border: 1px solid #f1f1f1;
             box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
             padding: 10px 20px;
-            img {
-              width: 100px;
-              height: 100px;
-              background-color: #000;
+            .item-pro {
+              img {
+                vertical-align:top;
+                width: 100px;
+                height: 100px;
+                background-color: #000;
+              }
+              .name {
+                display: inline-block;
+                width: 300px;
+                margin-left: 5px;
+              }
             }
             .p-num-box {
               display: flex;

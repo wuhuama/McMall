@@ -1,5 +1,5 @@
 const getters = {
-  hotelName: state => state.hotelName
+  count: state => state.count
 }
 
 export default getters

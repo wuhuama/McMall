@@ -7,7 +7,7 @@
           <div class="fl p-right">
             <div class="p-name">{{ goodsInfo.ProductName }}</div>
             <div class="p-price">￥{{ goodsInfo.ProductPrice }}</div>
-            <input-num ref="refInputNum"></input-num>
+            <input-num ref="refInputNum" :count="count" v-on:addCount="addProductCount" v-on:reduceCount="reduceProductCount"></input-num>
             <div class="btnBuy" @click="buyProduct()">立刻购买</div>
           </div>
         </div>
@@ -28,7 +28,7 @@
           <div class="other-goods-lists">
             <ul>
               <li class="other-goods-item" v-for="(item, index) in 3" :key="index">
-                <img src="https://resource.smartisan.com/resource/2f2afca6f88e3aef5b1f332ea0c1d65a.png?x-oss-process=image/resize,w_527/format,webp" alt="">
+                <img src="" alt="">
                 <div>hdhdhdhd</div>
                 <div>$3333</div>
               </li>
@@ -66,21 +66,28 @@ export default {
       // this.msg = routerParams
       // console.log(routerParams)
     },
-    addCount () {
-      this.count++
+    addProductCount (val) {
+      if (val) {
+        this.count++
+      }
     },
-    reduceCount () {
+    reduceProductCount () {
       if (this.count > 1) {
         this.count--
       } else {
         this.count = 1
       }
     },
+    changeText (val) {
+      this.msg = val
+    },
     buyProduct () {
       this.$router.push({
-        path: '/orderdetail'
+        path: '/orderdetail',
+        query: {
+          count: this.count
+        }
       })
-      localStorage.setItem('num', this.$refs.refInputNum.count)
     }
   }
 }
@@ -104,9 +111,9 @@ export default {
         margin-right: 20px;
       }
       .p-right {
+        width: 600px;
+
         .p-name {
-          height: 40px;
-          line-height: 40px;
           color: #000;
           font-weight: 600;
           font-size: 20px;
@@ -172,6 +179,7 @@ export default {
       }
     }
     .other-goods {
+      display: none;
       margin-bottom: 30px;
       .title-18 {
         height: 40px;

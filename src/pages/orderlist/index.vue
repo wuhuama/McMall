@@ -18,7 +18,7 @@
                 <div class="del" v-if="(item.Ing_Statu===0 || item.Ing_Statu===3)" @click="btnDeleteOrder(item.str_OrderNo)"><i class="fa fa-trash-o fa-lg" title="删除订单"></i></div>
               </div>
               <div class="product">
-                <div class="p-img"></div>
+                <!-- <div class="p-img"></div> -->
                 <div class="p-name">{{ item.str_ProductName }}</div>
                 <div class="p-price">￥{{ item.dec_Price }}</div>
                 <div class="p-count">{{ item.dec_Num }}</div>
@@ -28,7 +28,7 @@
                   <div class="link-mobile">{{ item.str_LinkTel }}</div>
                 </div>
                 <div class="p-operate">
-
+                  <div class="btn btnPay" v-if="item.Ing_Statu===0" @click="toPayMoney(item)">付款</div>
                 </div>
                 <div class="p-state">{{ item.str_Statu }}</div>
               </div>
@@ -120,6 +120,8 @@ export default {
           this.orderList = response.data
           this.total = response.Total
         }
+      }).catch(() => {
+        this.isShowLoading = false
       })
     },
     btnSearchOrder () {
@@ -134,6 +136,17 @@ export default {
           this.$elementMessage('取消成功！', 'success')
           this.btnSearchOrder()
         }
+      })
+    },
+    toPayMoney (item) {
+      console.log(item)
+      let orderNo = item.str_OrderNo
+      let money = item.dec_Money
+
+      localStorage.setItem('current-OrderNo', orderNo)
+      localStorage.setItem('current-Money', money)
+      this.$router.push({
+        path: '/scancode'
       })
     }
   }
@@ -227,9 +240,9 @@ export default {
               display: flex;
               justify-content: space-between;
               align-items: flex-start;
-              padding: 10px 0;
+              padding: 10px 20px;
               .p-name{
-                width: 100px;
+                width: 300px;
               }
               .p-img {
                 width: 80px;
@@ -243,8 +256,19 @@ export default {
                   margin-bottom: 10px;
                 }
               }
+              .p-operate{
+                width: 50px;
+                .btn {
+                  text-align: center;
+                  color: #fff;
+                  background-color: #179fd4;
+                  padding: 3px 10px;
+                  border-radius: 3px;
+                  cursor: pointer;
+                }
+              }
               .p-state {
-                margin-right: 20px;
+                margin-right: 0px;
               }
             }
           }
