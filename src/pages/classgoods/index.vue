@@ -66,7 +66,7 @@ export default {
       // let params = this.$route.query
       // console.log(`分类的url参数 ${JSON.stringify(params)}`)
       this.$http
-        .post('/bbc/ShopOrder/GetClass', {
+        .post('/ShopOrder/GetClass', {
           PreID: pid
         })
         .then(response => {
@@ -85,7 +85,7 @@ export default {
       // var end = this.currentPage * this.pageSize - 1
       // 到第end条结束
       _this.$http
-        .post('/bbc/ShopOrder/GetProduct', {
+        .post('/ShopOrder/GetProduct', {
           PageIndex: start,
           PageSize: this.pageSize,
           ClassID: item.ClassID

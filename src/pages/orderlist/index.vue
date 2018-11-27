@@ -109,7 +109,7 @@ export default {
     },
     getOorders (flag) {
       this.isShowLoading = true
-      this.$http.post('/bbc/ShopOrder/GetOrderList', {
+      this.$http.post('/ShopOrder/GetOrderList', {
         Statu: flag,
         KeyText: this.search_text,
         PageIndex: this.currentPage,
@@ -129,7 +129,7 @@ export default {
       this.getOorders(flag)
     },
     btnDeleteOrder (orderno) {
-      this.$http.post('/bbc/ShopOrder/CancleOrder', {
+      this.$http.post('/ShopOrder/CancleOrder', {
         OrderNo: orderno
       }).then((response) => {
         if (response.status === 0) {

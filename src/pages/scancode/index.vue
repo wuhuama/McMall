@@ -49,7 +49,7 @@ export default {
   methods: {
     creatQRCode (type) {
       let orderno = localStorage.getItem('current-OrderNo')
-      this.$http.post('/bbc/ShopOrder/CreatQRCode', {
+      this.$http.post('/ShopOrder/CreatQRCode', {
         OrderNo: orderno,
         PayType: type
       }).then((response) => {
@@ -80,7 +80,7 @@ export default {
     isAliPay () {
       this.ali_timer = setInterval(() => {
         let orderno = localStorage.getItem('current-OrderNo')
-        this.$http.post('/bbc/ShopOrder/IsPayOrder', {
+        this.$http.post('/ShopOrder/IsPayOrder', {
           OrderNo: orderno,
           PayType: 1
         }).then((response) => {
@@ -96,7 +96,7 @@ export default {
     isWeChatPay () {
       this.we_timer = setInterval(() => {
         let orderno = localStorage.getItem('current-OrderNo')
-        this.$http.post('/bbc/ShopOrder/IsPayOrder', {
+        this.$http.post('/ShopOrder/IsPayOrder', {
           OrderNo: orderno,
           PayType: 2
         }).then((response) => {

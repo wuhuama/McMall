@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getData () {
-      this.$http.post('/bbc/ShopOrder/GetClass', {
+      this.$http.post('/ShopOrder/GetClass', {
         PreID: 0
       }).then((response) => {
         this.classList = response.data

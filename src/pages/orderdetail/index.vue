@@ -92,7 +92,7 @@ export default {
     getpPayCode () {
       this.$refs['ruleForm'].validate(valid => {
         if (valid) {
-          this.$http.post('/bbc/ShopOrder/SubmitOrder', {
+          this.$http.post('/ShopOrder/SubmitOrder', {
             ProductID: this.productInfo.ProductID,
             ProductNum: this.$refs.rInputNum.count,
             LinkMan: this.ruleForm.name,

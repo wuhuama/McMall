@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     getProductData () {
-      this.$http.post('/bbc/ShopOrder/GetHomeProduct').then((response) => {
+      this.$http.post('/ShopOrder/GetHomeProduct').then((response) => {
         this.hotGoods = response.data.HList
         this.newGoods = response.data.NList
       })
